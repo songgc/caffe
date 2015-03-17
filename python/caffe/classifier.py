@@ -92,3 +92,10 @@ class Classifier(caffe.Net):
             predictions = predictions.mean(1)
 
         return predictions
+
+    def fast_predict(self, name, caffe_in):
+#        out = self.forward(data=caffe_in)
+        out = self.forward_all(**{name: caffe_in})
+        predictions = out[self.outputs[0]].squeeze(axis=(2,3))
+        return predictions
+
